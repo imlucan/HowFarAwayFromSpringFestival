@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	</head>
+	<body>
+		<h3 style="text-align: center">距离春节还有多少长时间</h3>
+		<h2 id="time"></h2>
+	</body>
+</html>
+<style>
+	body {
+		max-width: 488px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	#time {
+		padding: 20px;
+		text-align: center;
+	}
+</style>
+<script>
+	const getTimeDifference = (startTime, endTime) => {
+		const usedTime = endTime - startTime;
+		const days = Math.floor(usedTime / (24 * 3600 * 1000));
+		//计算出小时数
+		const leave1 = usedTime % (24 * 3600 * 1000);
+		const hours = Math.floor(leave1 / (3600 * 1000));
+		//计算相差分钟数
+		const leave2 = leave1 % (3600 * 1000);
+		const minutes = Math.floor(leave2 / (60 * 1000));
+
+		const seconds = (usedTime / 1000 - (days * 24 * 3600 + hours * 3600 + minutes * 60)).toFixed(0);
+		const string = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
+		return string;
+	};
+
+	const getRandomInt = ({ min = 0, max }) => {
+		if (max < min) throw "max must bigger than min";
+		return Math.floor(Math.random() * (max - min)) + min;
+	};
+
+	const getRandomColor = () => {
+		const c = [];
+		for (let i = 0; i < 3; i++) {
+			c.push(getRandomInt({ min: 0, max: 255 }));
+		}
+		return `rgb(${c[0]},${c[1]},${c[2]})`;
+	};
+
+	const init = () => {
+		const el = document.getElementById("time");
+		el.textContent = getTimeDifference(new Date(), new Date("2022-02-01"));
+		el.style.backgroundColor = getRandomColor();
+		setInterval(() => {
+			el.textContent = getTimeDifference(new Date(), new Date("2022-02-01"));
+			el.style.backgroundColor = getRandomColor();
+		}, 1000);
+	};
+
+	init();
+</script>
